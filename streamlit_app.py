@@ -1,4 +1,5 @@
 import streamlit as st
+import textwrap
 
 st.set_page_config(page_title="BRIS CERAMIC", layout="wide")
 
@@ -17,23 +18,22 @@ st.markdown(
 # Подключаем Font Awesome (иконки)
 st.markdown(r"""<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">""", unsafe_allow_html=True)
 
-# Вставляем CSS из твоей страницы (без iframe, поэтому ссылки кликабельны нормально)
-st.markdown(r"""<style>
-
-        * {
+# Вставляем CSS из твоей страницы
+STYLES = r"""<style>
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: #f5f5f5;
             color: #333333;
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -43,7 +43,7 @@ st.markdown(r"""<style>
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
             border: 1px solid #eaeaea;
         }
-        
+
         h1 {
             text-align: center;
             color: #2c6bbf;
@@ -53,7 +53,7 @@ st.markdown(r"""<style>
             border-bottom: 2px solid rgba(44, 107, 191, 0.2);
             font-weight: 700;
         }
-        
+
         h3 {
             color: #333333;
             margin: 25px 0 15px;
@@ -61,7 +61,7 @@ st.markdown(r"""<style>
             text-align: center;
             font-weight: 600;
         }
-        
+
         .description {
             text-align: center;
             color: #666666;
@@ -69,7 +69,7 @@ st.markdown(r"""<style>
             font-size: 16px;
             line-height: 1.6;
         }
-        
+
         /* Контактная сетка */
         .contacts-grid {
             display: grid;
@@ -77,7 +77,7 @@ st.markdown(r"""<style>
             gap: 15px;
             margin: 20px 0;
         }
-        
+
         .contact-card {
             padding: 20px;
             background: #f8f9fa;
@@ -86,14 +86,14 @@ st.markdown(r"""<style>
             transition: all 0.3s ease;
             position: relative;
         }
-        
+
         .contact-card:hover {
             background: #f0f4f8;
             border-color: #2c6bbf;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
-        
+
         .contact-name {
             font-weight: 600;
             color: #222222;
@@ -102,12 +102,12 @@ st.markdown(r"""<style>
             display: flex;
             align-items: center;
         }
-        
+
         .contact-name i {
             margin-right: 10px;
             color: #2c6bbf;
         }
-        
+
         .contact-phone, .contact-email {
             display: block;
             color: #444444;
@@ -118,17 +118,17 @@ st.markdown(r"""<style>
             display: flex;
             align-items: center;
         }
-        
+
         .contact-phone:hover, .contact-email:hover {
             color: #2c6bbf;
         }
-        
+
         .contact-phone i, .contact-email i {
             margin-right: 10px;
             width: 16px;
             text-align: center;
         }
-        
+
         /* Обновленный стиль для метки отдела продаж */
         .contact-role {
             position: absolute;
@@ -141,7 +141,7 @@ st.markdown(r"""<style>
             padding: 4px 10px;
             border-radius: 20px;
         }
-        
+
         /* Сетка для разделов */
         .size-grid {
             display: grid;
@@ -149,7 +149,7 @@ st.markdown(r"""<style>
             gap: 20px;
             margin: 30px 0;
         }
-        
+
         .size-item {
             padding: 20px 15px;
             text-align: center;
@@ -164,14 +164,14 @@ st.markdown(r"""<style>
             box-shadow: 0 4px 12px rgba(44, 107, 191, 0.2);
             color: #ffffff;
         }
-        
+
         .size-item:hover {
             background: linear-gradient(135deg, #1a5aaf 0%, #0d4a9f 100%);
             border-color: #1a5aaf;
             transform: translateY(-3px);
             box-shadow: 0 6px 18px rgba(44, 107, 191, 0.3);
         }
-        
+
         .size-item a {
             color: #ffffff;
             text-decoration: none;
@@ -186,9 +186,9 @@ st.markdown(r"""<style>
             flex-direction: column;
             transition: color 0.25s ease;
         }
-        
+
         .size-item:hover a { color: #ffffff; }
-        
+
         .size-code {
             display: block;
             font-weight: 800;
@@ -196,14 +196,14 @@ st.markdown(r"""<style>
             margin-bottom: 8px;
             font-size: 20px;
         }
-        
+
         .size-desc {
             display: block;
             color: rgba(255, 255, 255, 0.9);
             font-size: 14px;
             font-weight: 600;
         }
-        
+
         .new-label {
             position: absolute;
             top: -8px;
@@ -215,11 +215,11 @@ st.markdown(r"""<style>
             padding: 4px 10px;
             border-radius: 20px;
         }
-        
+
         .item-container {
             position: relative;
         }
-        
+
         .footer {
             text-align: center;
             margin-top: 40px;
@@ -228,16 +228,16 @@ st.markdown(r"""<style>
             padding-top: 20px;
             border-top: 1px solid #eaeaea;
         }
-        
+
         .footer a {
             color: #2c6bbf;
             text-decoration: none;
         }
-        
+
         .footer a:hover {
             text-decoration: underline;
         }
-        
+
         /* Стили для кнопок */
         .button-row {
             display: flex;
@@ -246,7 +246,7 @@ st.markdown(r"""<style>
             margin: 20px 0;
             flex-wrap: wrap;
         }
-        
+
         .blue-button {
             display: inline-flex;
             align-items: center;
@@ -262,92 +262,92 @@ st.markdown(r"""<style>
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(44, 107, 191, 0.2);
         }
-        
+
         .blue-button:hover {
             background: #1a5aaf;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(44, 107, 191, 0.3);
         }
-        
+
         .blue-button i {
             margin-right: 8px;
             font-size: 14px;
         }
-        
+
         .address-info {
             text-align: center;
             margin-bottom: 20px;
             color: #444444;
         }
-        
+
         .address-info i {
             margin-right: 8px;
             color: #2c6bbf;
         }
-        
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .contacts-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .size-grid {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
                 gap: 15px;
             }
-            
+
             .size-item {
                 padding: 20px 15px;
                 min-height: 100px;
             }
-            
+
             .size-code {
                 font-size: 20px;
             }
-            
+
             .size-desc {
                 font-size: 14px;
             }
-            
+
             .button-row {
                 flex-direction: column;
                 align-items: center;
                 gap: 10px;
             }
-            
+
             .blue-button {
                 width: 100%;
                 max-width: 250px;
                 justify-content: center;
             }
         }
-        
+
         @media (max-width: 480px) {
             .size-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             body {
                 padding: 15px;
             }
-            
+
             .container {
                 padding: 20px;
             }
-            
+
             h1 {
                 font-size: 28px;
             }
-            
+
             h3 {
                 font-size: 20px;
             }
-            
+
             .blue-button {
                 padding: 10px 18px;
                 font-size: 13px;
             }
-            
+
             .contact-role {
                 font-size: 10px;
                 padding: 3px 8px;
@@ -359,7 +359,7 @@ st.markdown(r"""<style>
             text-align: center;
             margin: 30px 0;
         }
-        
+
         .download-button {
             display: inline-block;
             padding: 14px 28px;
@@ -371,29 +371,29 @@ st.markdown(r"""<style>
             transition: all 0.3s ease;
             box-shadow: 0 2px 6px rgba(44, 107, 191, 0.2);
         }
-        
+
         .download-button:hover {
             background: #1a5aaf;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(44, 107, 191, 0.3);
         }
-        
+
         .download-button i {
             margin-right: 8px;
         }
-    
+
         :root {
             --brand: #2c6bbf;
             --brand-dark: #1a5aaf;
             --accent: #e74c3c;
         }
-        
+
         h1 { color: var(--brand); border-bottom: 2px solid rgba(44, 107, 191, 0.2); }
         .contact-name i, .address-info i, .blue-button:hover { color: var(--brand); }
         .blue-button { background: var(--brand); }
         .blue-button:hover { background: var(--brand-dark); }
         .new-label { background: var(--accent); }
-        
+
         /* Top nav */
         .topnav {
             position: sticky;
@@ -434,7 +434,7 @@ st.markdown(r"""<style>
         }
         .contact-card{ display:flex; flex-direction:column; gap:6px; }
         .contact-header{ display:flex; align-items:center; gap:10px; }
-        
+
         /* Modal for contacts */
         .modal-overlay{
             position: fixed; inset: 0;
@@ -774,16 +774,15 @@ background:#2c6bbf;color:#fff;padding:12px 16px;border-radius:50px;
 text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(44, 107, 191, 0.3);
 }
 #tg-float-left:hover{background:#1a5aaf;}
-
-</style>""", unsafe_allow_html=True)
+</style>"""
+st.markdown(STYLES, unsafe_allow_html=True)
 
 # Вставляем HTML (контент из <body>)
-st.markdown(r"""
-    <!-- Остальной HTML код остается без изменений -->
+BODY_HTML = r"""<!-- Остальной HTML код остается без изменений -->
     <div class="topnav">
       <div class="topnav-inner">
         <div style="display:flex;align-items:center;gap:10px;">
-            
+
             </div>
         <div class="menu">
             <a href="https://www.brisceramic.com/" target="_blank" class="blue-button">🌐 Перейти на сайт</a>
@@ -794,13 +793,13 @@ st.markdown(r"""
     <div class="spacer"></div>
 
     <div class="container">
-        
+
         <h1><a href="https://www.brisceramic.com/" target="_blank" style="text-decoration: none; color: inherit;">BRIS CERAMIC</a></h1>
         <p class="description">Выберите керамогранит из нашего ассортимента. Более 150+ контейнеров в наличии.</p>
         <p class="description">Номер в названии фото в облаке соответствует номеру артикула в остатках.</p>
-        
+
         <section id="catalog">
-        
+
         <div class="size-grid">
             <!-- Блоки каталогов -->
             <div class="item-container">
@@ -876,7 +875,7 @@ st.markdown(r"""
                     </a>
                 </div>
             </div>
-            
+
             <!-- Новые добавленные элементы -->
             <div class="item-container">
                 <div class="size-item">
@@ -909,8 +908,8 @@ st.markdown(r"""
         </section>
 
         <section id="stocks">
-        
-        
+
+
         </div>
             </div>
         </div>
@@ -919,64 +918,64 @@ st.markdown(r"""
         <!-- Обновленный блок контактов -->
         <section id="contacts">
         <h2 class="section-title">Свяжитесь с нами:</h2>
-        
+
         <div class="contacts-grid">
             <div class="contact-card">
                 <div class="contact-name"><i class="fas fa-envelope"></i> Эл.почта для заказов</div>
                 <a href="mailto:info@brisceramic.com" class="contact-email">info@brisceramic.com</a>
             </div>
-            
+
             <div class="contact-card">
-                
+
                 <div class="contact-name"><i class="fas fa-user"></i> Анна Хворова</div>
                 <a href="https://wa.me/79034205888" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-903-420-5-888</a>
             </div>
-            
+
             <div class="contact-card">
-                
+
                 <div class="contact-name"><i class="fas fa-user"></i> Анна Поротикова</div>
                 <a href="https://wa.me/79601241544" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-960-124-15-44</a>
             </div>
-            
+
             <div class="contact-card">
-                
+
                 <div class="contact-name"><i class="fas fa-user"></i> Андрей Шишкин</div>
                 <a href="https://wa.me/79030257999" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-903-025-7-999</a>
             </div>
-            
+
             <div class="contact-card">
-                
+
                 <div class="contact-name"><i class="fas fa-user"></i> Сергей Таратухин</div>
                 <a href="https://wa.me/79601079415" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-960-107-94-15</a>
             </div>
-            
+
             <div class="contact-card">
-                
+
                 <div class="contact-name"><i class="fas fa-user"></i> Елена Лукьянченко</div>
                 <a href="https://wa.me/79065842407" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-906-584-24-07</a>
             </div>
-            
+
             <div class="contact-card">
-            
+
                 <div class="contact-name"><i class="fas fa-warehouse"></i> Складская поддержка</div>
                 <a href="mailto:kostuhov81@rambler.ru" class="contact-email"><i class="fas fa-envelope"></i> kostuhov81@rambler.ru</a>
             </div>
-            
+
             <div class="contact-card">
                 <div class="contact-name"><i class="fas fa-user-tie"></i> Начальник склада</div>
                 <a href="https://wa.me/79288490581" target="_blank" rel="noopener" class="contact-phone" aria-label="Открыть WhatsApp чат с номером"><i class="fab fa-whatsapp"></i> +7-928-849-05-81</a>
             </div>
         </div>
-        
+
         <!-- Обновленный блок с кнопками -->
         <div style="text-align: center; margin: 20px 0;">
-            
-            
+
+
             <div class="button-row">
     <a href="https://yandex.ru/maps/-/CLfJAC~e" class="blue-button"><i class="fas fa-map-marked-alt"></i> Склад Крымск, ул. Привокзальная 68а</a>
                 <a href="https://yandex.ru/maps/-/CLAcfC5H" class="blue-button"><i class="fas fa-map-marked-alt"></i> Склад Воронеж, ул. Холмистая 1е, склад №5</a>
             </div>
-            
+
         </div>
         </section>
 <div class="button-row">
@@ -995,7 +994,7 @@ st.markdown(r"""
             <p>директор: <a href="tel:+7-980-240-77-77">+7-980-240-77-77</a></p>
         </div>
     </div>
-    
+
     <!-- Contacts Modal -->
     <div class="modal-overlay" id="contactsModal" role="dialog" aria-modal="true" aria-labelledby="contactsTitle">
       <div class="modal">
@@ -1133,7 +1132,9 @@ text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(44, 107, 191, 0.3
 #tg-float-left:hover{background:#1a5aaf;}
 </style>
 <a id="tg-float" href="https://t.me/Brisceramic" target="_blank">📢 Telegram</a>
-<a id="tg-float-left" href="https://drive.google.com/drive/u/1/folders/1IsRAngkIbCbHgbUt_PzG7jppDsne-QoL">📚 Библиотека</a>
+<a id="tg-float-left" href="https://drive.google.com/drive/u/1/folders/1IsRAngkIbCbHgbUt_PzG7jppDsne-QoL">📚 Библиотека</a>"""
+st.markdown(BODY_HTML, unsafe_allow_html=True)
 
-
-""", unsafe_allow_html=True)
+# Примечание:
+# Streamlit может игнорировать <script> внутри st.markdown на облаке.
+# Если понадобится, модалку "Выбор почтового сервиса" сделаем нативно на Streamlit.

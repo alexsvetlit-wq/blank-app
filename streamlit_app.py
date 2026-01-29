@@ -773,6 +773,24 @@ background:#2c6bbf;color:#fff;padding:12px 16px;border-radius:50px;
 text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(44, 107, 191, 0.3);
 }
 #tg-float-left:hover{background:#1a5aaf;}
+
+/* === STREAMLIT OVERRIDE: кнопки-ссылки === */
+a.blue-button,
+a.blue-button:visited,
+a.blue-button:hover,
+a.blue-button:active {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+a.blue-button {
+    background: #2c6bbf !important;
+}
+
+a.blue-button:hover {
+    background: #1a5aaf !important;
+}
+
 </style>""", unsafe_allow_html=True)
 
 # HTML контент (убрали отступы в каждой строке, чтобы Streamlit НЕ превращал в code block)

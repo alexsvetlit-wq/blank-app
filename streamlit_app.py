@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="BRIS CERAMIC", layout="wide")
 
-# Скрываем стандартный UI Streamlit, чтобы страница выглядела как самостоятельный сайт
 st.markdown(
     """
     <style>
@@ -14,10 +13,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Font Awesome (иконки)
+# Icon font
 st.markdown(r"""<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">""", unsafe_allow_html=True)
 
-# CSS твоей страницы (убрали отступы в каждой строке, чтобы Streamlit НЕ превращал в code block)
+# Styles (base + Globus-like catalog)
 st.markdown(r"""<style>
 * {
 box-sizing: border-box;
@@ -774,6 +773,122 @@ text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(44, 107, 191, 0.3
 }
 #tg-float-left:hover{background:#1a5aaf;}
 
+/* ====== Globus-like promo grid for catalogs ====== */
+.promo-grid{
+  max-width: 1080px;
+  margin: 18px auto 26px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 18px;
+}
+.promo-card{
+  position: relative;
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 210px;
+  background:
+    radial-gradient(1200px 400px at 20% 20%, rgba(255,255,255,0.10), rgba(255,255,255,0)),
+    linear-gradient(135deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45)),
+    linear-gradient(135deg, #2c6bbf 0%, #1a5aaf 60%, #0d4a9f 100%);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 28px rgba(0,0,0,.12);
+  border: 1px solid rgba(255,255,255,.12);
+  text-decoration: none !important;
+}
+.promo-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0,0,0,.16);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.promo-overlay{
+  position: absolute;
+  inset: 0;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px 18px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.62) 100%);
+}
+.promo-text{max-width: 85%;}
+.promo-title{
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .2px;
+  line-height: 1.05;
+  text-transform: none;
+  margin-bottom: 6px;
+}
+.promo-sub{
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,.86);
+  line-height: 1.25;
+}
+.promo-btn{
+  margin-top: 14px;
+  align-self: flex-start;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.55);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  backdrop-filter: blur(2px);
+  background: rgba(255,255,255,.08);
+}
+.promo-card:hover .promo-btn{
+  background: rgba(255,255,255,.16);
+  border-color: rgba(255,255,255,.75);
+}
+.promo-badge{
+  position:absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color:#fff;
+  background: rgba(231,76,60,.92);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12);
+}
+.promo-large{ min-height: 520px; }
+.promo-medium{ min-height: 250px; }
+.promo-regular{ min-height: 220px; }
+
+/* Make the right column a stack for first two medium cards */
+.promo-grid .promo-medium:nth-child(2),
+.promo-grid .promo-medium:nth-child(3){
+  grid-column: 2 / 3;
+}
+.promo-grid .promo-large{ grid-row: 1 / span 2; }
+.promo-grid .promo-medium:nth-child(2){ grid-row: 1; }
+.promo-grid .promo-medium:nth-child(3){ grid-row: 2; }
+
+/* Remaining cards: two columns full width */
+.promo-grid .promo-regular{
+  grid-column: span 1;
+}
+.promo-grid .promo-regular:nth-child(n+4){
+  grid-column: span 1;
+}
+@media (max-width: 980px){
+  .promo-grid{
+    grid-template-columns: 1fr;
+  }
+  .promo-large{ min-height: 320px; grid-row: auto; }
+  .promo-medium{ min-height: 220px; }
+  .promo-grid .promo-medium:nth-child(2),
+  .promo-grid .promo-medium:nth-child(3){
+    grid-column: auto; grid-row: auto;
+  }
+}
+
+
 /* === STREAMLIT OVERRIDE: кнопки-ссылки === */
 a.blue-button,
 a.blue-button:visited,
@@ -782,18 +897,12 @@ a.blue-button:active {
     color: #ffffff !important;
     text-decoration: none !important;
 }
-
-a.blue-button {
-    background: #2c6bbf !important;
-}
-
-a.blue-button:hover {
-    background: #1a5aaf !important;
-}
+a.blue-button { background: #2c6bbf !important; }
+a.blue-button:hover { background: #1a5aaf !important; }
 
 </style>""", unsafe_allow_html=True)
 
-# HTML контент (убрали отступы в каждой строке, чтобы Streamlit НЕ превращал в code block)
+# Page HTML
 st.markdown(r"""<!-- Остальной HTML код остается без изменений -->
 <div class="topnav">
 <div class="topnav-inner">
@@ -816,112 +925,145 @@ st.markdown(r"""<!-- Остальной HTML код остается без из
 
 <section id="catalog">
 
-<div class="size-grid">
-<!-- Блоки каталогов -->
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/y9oa/582e9ReTF">
-<span class="size-code">60X60</span>
-<span class="size-desc">Уличная 20 мм R11</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/YfY8/RqvgBNoVZ">
-<span class="size-code">20X120</span>
-<span class="size-desc">Доски</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/jkKr/PGYV7A22X">
-<span class="size-code">60X60</span>
-<span class="size-desc">Матовая</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/truv/TZD9jYukY">
-<span class="size-code">60X60</span>
-<span class="size-desc">Полировка</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/VGWt/3BZcruwN4">
-<span class="size-code">60X60</span>
-<span class="size-desc">Карвинг</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/KV2o/ScuuZsJQT">
-<span class="size-code">60X120</span>
-<span class="size-desc">Матовая</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/rSue/gf2b2yzFQ">
-<span class="size-code">60X120</span>
-<span class="size-desc">Полировка</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://cloud.mail.ru/public/F3kN/wssdawzG5">
-<span class="size-code">60X120</span>
-<span class="size-desc">Карвинг</span>
-</a>
-</div>
-</div>
-<div class="item-container">
-<div class="size-item">
-<a href="https://clck.ru/3M5ZrQ">
-<span class="new-label">Остатки</span>
-<span class="size-code">Ежедневные</span>
-<span class="size-desc">включая "в пути" </span>
-</a>
-</div>
-</div>
 
-<!-- Новые добавленные элементы -->
-<div class="item-container">
-<div class="size-item">
-<span class="new-label">Новинки</span>
-<a href="https://cloud.mail.ru/public/Dxh4/hcYPWdQeg">
-<span class="size-code">60X60/120х60</span>
-<span class="size-desc">(все поверхности)</span>
+<section id="catalog">
+<div class="promo-grid">
+
+<a class="promo-card promo-large" href="https://cloud.mail.ru/public/y9oa/582e9ReTF" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60</div>
+<div class="promo-sub">Уличная 20 мм R11</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
 </a>
+
+<a class="promo-card promo-medium" href="https://cloud.mail.ru/public/YfY8/RqvgBNoVZ" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">20X120</div>
+<div class="promo-sub">Доски</div>
 </div>
+<div class="promo-btn">Перейти →</div>
 </div>
-<div class="item-container">
-<div class="size-item">
-<span class="new-label">Распродажи</span>
-<a href="https://cloud.mail.ru/public/wZiT/Gpe44mJHL">
-<span class="size-code">60X60/120х60/20х120</span>
-<span class="size-desc">(обновляются)</span>
 </a>
+
+<a class="promo-card promo-medium" href="https://cloud.mail.ru/public/jkKr/PGYV7A22X" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60</div>
+<div class="promo-sub">Матовая</div>
 </div>
+<div class="promo-btn">Перейти →</div>
 </div>
-<div class="item-container">
-<div class="size-item">
-<span class="new-label">Прайс</span>
-<a href="https://cloud.mail.ru/public/bQ3B/vgEgE7yzg">
-<span class="size-code">ОПТ+SALE</span>
-<span class="size-desc">(актуальный)</span>
 </a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/truv/TZD9jYukY" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60</div>
+<div class="promo-sub">Полировка</div>
 </div>
+<div class="promo-btn">Перейти →</div>
 </div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/VGWt/3BZcruwN4" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60</div>
+<div class="promo-sub">Карвинг</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/KV2o/ScuuZsJQT" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X120</div>
+<div class="promo-sub">Матовая</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/rSue/gf2b2yzFQ" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X120</div>
+<div class="promo-sub">Полировка</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/F3kN/wssdawzG5" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X120</div>
+<div class="promo-sub">Карвинг</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/Dxh4/hcYPWdQeg" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60/120х60</div>
+<div class="promo-sub">(все поверхности)</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/wZiT/Gpe44mJHL" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60/120х60/20х120</div>
+<div class="promo-sub">(обновляются)</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://cloud.mail.ru/public/bQ3B/vgEgE7yzg" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">ОПТ+SALE</div>
+<div class="promo-sub">(актуальный)</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
+<a class="promo-card promo-regular" href="https://www.brisceramic.com/" target="_blank" rel="noopener" style="">
+
+<div class="promo-overlay">
+<div class="promo-text">
+<div class="promo-title">60X60</div>
+<div class="promo-sub">Уличная 20 мм R11</div>
+</div>
+<div class="promo-btn">Перейти →</div>
+</div>
+</a>
+
 </div>
 </section>
+
 
 <section id="stocks">
 
